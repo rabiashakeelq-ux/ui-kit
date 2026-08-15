@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UI Kit — Reusable Component Library</title>
+<style>
+  :root{
+    --ink:#0c1210;
+    --panel:#121b18;
+    --panel-2:#182420;
+    --line:rgba(214,255,235,0.10);
+    --mint:#6df0b0;
+    --mint-dim:#3d8f6c;
+    --amber:#f0b95a;
+    --coral:#f0705a;
+    --text:#e9f5ef;
+    --text-dim:#9db3a9;
+    --mono:'JetBrains Mono','SFMono-Regular',Consolas,monospace;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 15% -10%, rgba(109,240,176,0.08), transparent 45%),
+      var(--ink);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.55;
+    padding:0 0 80px;
+  }
+  a{color:var(--mint);}
+
+  /* ---------- Page chrome ---------- */
+  header.hero{
+    padding:56px 24px 40px;
+    max-width:980px;
+    margin:0 auto;
+    border-bottom:1px solid var(--line);
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--mint);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:14px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:7px;height:7px;border-radius:50%;
+    background:var(--mint);
+    box-shadow:0 0 0 4px rgba(109,240,176,0.15);
+  }
+  h1{
+    font-size:clamp(28px,4.2vw,44px);
+    margin:0 0 12px;
+    letter-spacing:-0.02em;
+  }
+  header.hero p{
+    color:var(--text-dim);
+    max-width:640px;
+    font-size:15.5px;
+    margin:0;
+  }
+
+  main{max-width:980px;margin:0 auto;padding:0 24px;}
+
+  section.block{padding:48px 0;border-bottom:1px solid var(--line);}
+  section.block:last-of-type{border-bottom:none;}
+
+  .block-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:22px;
+    flex-wrap:wrap;
+  }
+  .block-head h2{
+    font-size:20px;
+    margin:0;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .block-head h2 .tag{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--ink);
+    background:var(--mint);
+    padding:3px 8px;
+    border-radius:4px;
+    font-weight:700;
+  }
+  .block-head code.sig{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--text-dim);
+    background:var(--panel);
+    border:1px solid var(--line);
+    padding:6px 10px;
+    border-radius:6px;
+  }
+
+  .stage{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:28px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:16px;
+    align-items:center;
+  }
+  .stage.column{flex-direction:column;align-items:stretch;}
+
+  /* ---------- Button component ---------- */
+  .btn{
+    font-family:var(--sans);
+    font-weight:600;
+    font-size:14px;
+    border-radius:8px;
+    padding:11px 20px;
+    border:1px solid transparent;
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .btn:active{transform:translateY(1px) scale(.98);}
+  .btn:focus-visible{outline:2px solid var(--mint);outline-offset:2px;}
+  .btn-primary{background:var(--mint);color:#08130f;}
+  .btn-primary:hover{box-shadow:0 6px 18px rgba(109,240,176,0.25);}
+  .btn-secondary{background:transparent;color:var(--text);border-color:var(--line);}
+  .btn-secondary:hover{border-color:var(--mint-dim);}
+  .btn-danger{background:var(--coral);color:#2a0e08;}
+  .btn-danger:hover{box-shadow:0 6px 18px rgba(240,112,90,0.25);}
+  .btn-ghost{background:transparent;color:var(--text-dim);}
+  .btn-ghost:hover{color:var(--text);background:var(--panel-2);}
+  .btn[disabled]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none;}
+  .btn-sm{padding:7px 14px;font-size:12.5px;}
+  .btn-lg{padding:14px 26px;font-size:15.5px;}
+
+  /* ---------- Card component ---------- */
+  .card{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:20px;
+    width:230px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .card:hover{border-color:var(--mint-dim);transform:translateY(-3px);}
+  .card .badge{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    width:fit-content;
+    padding:3px 8px;
+    border-radius:4px;
+    color:var(--ink);
+    background:var(--mint);
+  }
+  .card .badge.amber{background:var(--amber);}
+  .card .badge.coral{background:var(--coral);}
+  .card h3{margin:0;font-size:16px;}
+  .card p{margin:0;font-size:13px;color:var(--text-dim);}
+  .card .card-foot{margin-top:6px;}
+
+  /* ---------- Modal component ---------- */
+  .modal-overlay{
+    position:fixed;inset:0;
+    background:rgba(4,10,8,0.65);
+    backdrop-filter:blur(3px);
+    display:flex;align-items:center;justify-content:center;
+    z-index:1000;
+    opacity:0;
+    animation:fadeIn .15s ease forwards;
+    padding:20px;
+  }
+  @keyframes fadeIn{to{opacity:1;}}
+  .modal-box{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:14px;
+    max-width:420px;
+    width:100%;
+    padding:26px;
+    transform:translateY(10px) scale(.98);
+    animation:riseIn .18s ease forwards;
+    box-shadow:0 30px 60px rgba(0,0,0,0.45);
+  }
+  @keyframes riseIn{to{transform:translateY(0) scale(1);}}
+  .modal-box h3{margin:0 0 10px;font-size:18px;}
+  .modal-box p{margin:0 0 20px;color:var(--text-dim);font-size:14px;}
+  .modal-actions{display:flex;justify-content:flex-end;gap:10px;}
+
+  /* ---------- Toast component ---------- */
+  #toast-stack{
+    position:fixed;
+    bottom:22px;
+    right:22px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    z-index:2000;
+    max-width:320px;
+  }
+  .toast{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-left:3px solid var(--mint);
+    border-radius:8px;
+    padding:13px 16px;
+    font-size:13.5px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    box-shadow:0 12px 30px rgba(0,0,0,0.35);
+    transform:translateX(20px);
+    opacity:0;
+    animation:toastIn .18s ease forwards;
+  }
+  .toast.success{border-left-color:var(--mint);}
+  .toast.error{border-left-color:var(--coral);}
+  .toast.info{border-left-color:#6ba8f0;}
+  .toast.leaving{animation:toastOut .18s ease forwards;}
+  @keyframes toastIn{to{transform:translateX(0);opacity:1;}}
+  @keyframes toastOut{to{transform:translateX(20px);opacity:0;}}
+  .toast .dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0;}
+  .toast.success .dot{color:var(--mint);}
+  .toast.error .dot{color:var(--coral);}
+  .toast.info .dot{color:#6ba8f0;}
+
+  /* ---------- Reflection ---------- */
+  .reflection{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--amber);
+    border-radius:var(--radius);
+    padding:22px 26px;
+    font-size:14.5px;
+    color:var(--text-dim);
+  }
+  .reflection strong{color:var(--text);}
+
+  code.inline{
+    font-family:var(--mono);
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    padding:1px 6px;
+    border-radius:4px;
+    font-size:12.5px;
+    color:var(--mint);
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="eyebrow">Component Library · Assignment</div>
+  <h1>Building UI as reusable functions</h1>
+  <p>Four components — Button, Card, Modal, Toast — each built as a plain JS factory function that takes a config object and returns a DOM node. No hardcoded copies: every instance on this page is the same function called with different props.</p>
+</header>
+
+<main>
+
+  <!-- BUTTON -->
+  <section class="block" id="section-button">
+    <div class="block-head">
+      <h2><span class="tag">01</span> Button</h2>
+      <code class="sig">createButton({ text, variant, size, onClick, disabled })</code>
+    </div>
+    <div class="stage" id="button-stage"></div>
+  </section>
+
+  <!-- CARD -->
+  <section class="block" id="section-card">
+    <div class="block-head">
+      <h2><span class="tag">02</span> Card</h2>
+      <code class="sig">createCard({ badge, badgeColor, title, description, footer })</code>
+    </div>
+    <div class="stage" id="card-stage"></div>
+  </section>
+
+  <!-- MODAL -->
+  <section class="block" id="section-modal">
+    <div class="block-head">
+      <h2><span class="tag">03</span> Modal</h2>
+      <code class="sig">openModal({ title, body, actions })</code>
+    </div>
+    <div class="stage" id="modal-stage"></div>
+  </section>
+
+  <!-- TOAST -->
+  <section class="block" id="section-toast">
+    <div class="block-head">
+      <h2><span class="tag">04</span> Toast</h2>
+      <code class="sig">showToast({ message, type, duration })</code>
+    </div>
+    <div class="stage" id="toast-stage"></div>
+  </section>
+
+  <!-- REFLECTION -->
+  <section class="block">
+    <div class="block-head">
+      <h2><span class="tag">05</span> Reflection</h2>
+    </div>
+    <div class="reflection">
+      <p><strong>Thinking in components changed the shape of the code, not just its organization.</strong> In earlier tasks I wrote HTML/CSS/JS for exactly the layout in front of me — a button was three lines of markup with hand-typed classes, and if I needed a second one, I copy-pasted and tweaked it. Here, every visual piece is really just a function: I decide what varies (text, variant, onClick) and treat everything else as fixed style, so <code class="inline">createButton()</code> or <code class="inline">createCard()</code> gets called once and reused with different props instead of duplicated. It also forced me to separate "structure" from "content" — the component builds the DOM node and wiring, while the page just supplies data. The trade-off is I had to think upfront about the props each function needs, which took longer than hardcoding, but adding a fifth button or card afterward became a one-line call instead of editing HTML again.</p>
+    </div>
+  </section>
+
+</main>
+
+<div id="toast-stack"></div>
+
+<script>
+/* =========================================================
+   1. BUTTON — createButton({ text, variant, size, onClick, disabled })
+   ========================================================= */
+function createButton({ text = 'Button', variant = 'primary', size = 'md', onClick = () => {}, disabled = false } = {}) {
+  const btn = document.createElement('button');
+  btn.textContent = text;
+  btn.className = `btn btn-${variant}` + (size !== 'md' ? ` btn-${size}` : '');
+  if (disabled) btn.disabled = true;
+  btn.addEventListener('click', onClick);
+  return btn;
+}
+
+/* =========================================================
+   2. CARD — createCard({ badge, badgeColor, title, description, footer })
+   ========================================================= */
+function createCard({ badge = '', badgeColor = '', title = 'Card title', description = '', footer = null } = {}) {
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  if (badge) {
+    const b = document.createElement('span');
+    b.className = 'badge' + (badgeColor ? ` ${badgeColor}` : '');
+    b.textContent = badge;
+    card.appendChild(b);
+  }
+
+  const h3 = document.createElement('h3');
+  h3.textContent = title;
+  card.appendChild(h3);
+
+  if (description) {
+    const p = document.createElement('p');
+    p.textContent = description;
+    card.appendChild(p);
+  }
+
+  if (footer) {
+    const foot = document.createElement('div');
+    foot.className = 'card-foot';
+    foot.appendChild(footer);
+    card.appendChild(foot);
+  }
+
+  return card;
+}
+
+/* =========================================================
+   3. MODAL — openModal({ title, body, actions })
+   Fully functional: open/close, backdrop click, ESC key.
+   ========================================================= */
+function openModal({ title = 'Modal title', body = '', actions = [] } = {}) {
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+
+  const box = document.createElement('div');
+  box.className = 'modal-box';
+
+  const h3 = document.createElement('h3');
+  h3.textContent = title;
+
+  const p = document.createElement('p');
+  p.textContent = body;
+
+  const actionsRow = document.createElement('div');
+  actionsRow.className = 'modal-actions';
+
+  function close() {
+    overlay.remove();
+    document.removeEventListener('keydown', onKey);
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+  }
+
+  // default close button if no actions supplied
+  const finalActions = actions.length ? actions : [{ text: 'Close', variant: 'secondary', onClick: close }];
+
+  finalActions.forEach(a => {
+    const b = createButton({
+      text: a.text,
+      variant: a.variant || 'secondary',
+      onClick: (e) => { if (a.onClick) a.onClick(e); if (a.closeOnClick !== false) close(); }
+    });
+    actionsRow.appendChild(b);
+  });
+
+  box.append(h3, p, actionsRow);
+  overlay.appendChild(box);
+
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+  document.addEventListener('keydown', onKey);
+
+  document.body.appendChild(overlay);
+  return { close };
+}
+
+/* =========================================================
+   4. TOAST — showToast({ message, type, duration })
+   Fully functional: auto-dismiss, stacking (multiple at once).
+   ========================================================= */
+function showToast({ message = 'Notification', type = 'info', duration = 3000 } = {}) {
+  const stack = document.getElementById('toast-stack');
+
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+
+  const dot = document.createElement('span');
+  dot.className = 'dot';
+
+  const text = document.createElement('span');
+  text.textContent = message;
+
+  toast.append(dot, text);
+  stack.appendChild(toast);
+
+  function remove() {
+    toast.classList.add('leaving');
+    toast.addEventListener('animationend', () => toast.remove(), { once: true });
+  }
+
+  if (duration > 0) setTimeout(remove, duration);
+  toast.addEventListener('click', remove);
+
+  return { remove };
+}
+
+/* =========================================================
+   DEMO PAGE — every component called multiple times
+   with different props, proving reuse over duplication.
+   ========================================================= */
+
+// --- Buttons ---
+const buttonStage = document.getElementById('button-stage');
+buttonStage.append(
+  createButton({ text: 'Save changes', variant: 'primary', onClick: () => showToast({ message: 'Changes saved', type: 'success' }) }),
+  createButton({ text: 'Cancel', variant: 'secondary', onClick: () => showToast({ message: 'Cancelled', type: 'info' }) }),
+  createButton({ text: 'Delete account', variant: 'danger', onClick: () => showToast({ message: 'Deletion queued', type: 'error' }) }),
+  createButton({ text: 'Dismiss', variant: 'ghost', onClick: () => showToast({ message: 'Dismissed', type: 'info' }) }),
+  createButton({ text: 'Small', variant: 'primary', size: 'sm' }),
+  createButton({ text: 'Large', variant: 'primary', size: 'lg' }),
+  createButton({ text: 'Disabled', variant: 'primary', disabled: true })
+);
+
+// --- Cards ---
+const cardStage = document.getElementById('card-stage');
+cardStage.append(
+  createCard({
+    badge: 'Free', title: 'Starter', description: 'Everything to launch a first project.',
+    footer: createButton({ text: 'Choose plan', variant: 'secondary', size: 'sm' })
+  }),
+  createCard({
+    badge: 'Popular', badgeColor: 'amber', title: 'Pro', description: 'For freelancers running multiple clients.',
+    footer: createButton({ text: 'Choose plan', variant: 'primary', size: 'sm' })
+  }),
+  createCard({
+    badge: 'Limited', badgeColor: 'coral', title: 'Agency', description: 'Team seats and priority support.',
+    footer: createButton({ text: 'Contact sales', variant: 'secondary', size: 'sm' })
+  })
+);
+
+// --- Modal triggers ---
+const modalStage = document.getElementById('modal-stage');
+modalStage.append(
+  createButton({
+    text: 'Open confirm modal', variant: 'primary',
+    onClick: () => openModal({
+      title: 'Delete this habit?',
+      body: 'This removes it and its streak history. This can\'t be undone.',
+      actions: [
+        { text: 'Cancel', variant: 'secondary' },
+        { text: 'Delete', variant: 'danger', onClick: () => showToast({ message: 'Habit deleted', type: 'error' }) }
+      ]
+    })
+  }),
+  createButton({
+    text: 'Open info modal', variant: 'secondary',
+    onClick: () => openModal({
+      title: 'About streaks',
+      body: 'A streak counts consecutive days a habit was marked done, and resets if a day is missed.',
+      actions: [{ text: 'Got it', variant: 'primary' }]
+    })
+  })
+);
+
+// --- Toast triggers (stacking demo) ---
+const toastStage = document.getElementById('toast-stage');
+toastStage.append(
+  createButton({ text: 'Show success toast', variant: 'primary', size: 'sm', onClick: () => showToast({ message: 'Habit marked complete', type: 'success' }) }),
+  createButton({ text: 'Show error toast', variant: 'danger', size: 'sm', onClick: () => showToast({ message: 'Could not sync', type: 'error', duration: 4000 }) }),
+  createButton({ text: 'Show info toast', variant: 'secondary', size: 'sm', onClick: () => showToast({ message: 'Synced just now', type: 'info' }) }),
+  createButton({ text: 'Fire 3 at once (stack test)', variant: 'ghost', size: 'sm', onClick: () => {
+    showToast({ message: 'Uploading...', type: 'info' });
+    showToast({ message: 'Habit #4 saved', type: 'success' });
+    showToast({ message: 'Reminder set', type: 'success' });
+  }})
+);
+</script>
+</body>
+</html>
